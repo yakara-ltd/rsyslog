@@ -60,6 +60,9 @@ See `attributes/default.rb` for default values.
 - `node['rsyslog']['templates']` - Allows a user to specify a dynamic filename and the format of the logs
 - `node['rsyslog']['rate_limit_interval']` - Value of the $SystemLogRateLimitInterval configuration directive in `/etc/rsyslog.conf`. Default is nil, leaving it to the platform default.
 - `node['rsyslog']['rate_limit_burst']` - Value of the $SystemLogRateLimitBurst configuration directive in `/etc/rsyslog.conf`. Default is nil, leaving it to the platform default.
+- `node['rsyslog']['use_disk_queue']` - Set to `true` to switch to using a disk queue. This is more reliable than the default (disk-assisted memory queue), but has a performance hit. ([more info](http://www.rsyslog.com/doc/queues.html)).
+- `node['rsyslog']['action_queue_checkpoint_interval']` - In the case of a disk queue, this configures the checkpoint interval - the default is `0` - no checkpoints ([more info](http://www.rsyslog.com/doc/queues.html)).
+- `node['rsyslog']['action_queue_sync_queue_files']` - In the case of a disk queue, enabling this forces a (f)sync after each disk write. This makes the queues very reliable, but has a performance penalty. the default is `false` ([more info](http://www.rsyslog.com/doc/queues.html)).
 - `node['rsyslog']['action_queue_max_disk_space']` - Max amount of disk space the disk-assisted queue is allowed to use ([more info](http://www.rsyslog.com/doc/queues.html)).
 - `node['rsyslog']['enable_tls']` - Whether or not to enable TLS encryption. When enabled, forces protocol to `tcp`. Default is `false`.
 - `node['rsyslog']['tls_ca_file']` - Path to TLS CA file. Required for both server and clients.

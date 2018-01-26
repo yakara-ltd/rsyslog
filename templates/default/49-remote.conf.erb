@@ -2,10 +2,10 @@
 <% @servers.each.with_index(1) do |server, index| -%>
 <% if node['rsyslog']['use_disk_queue'] -%>
 $ActionQueueType Disk # use disk queue
-$ActionQueueCheckpointInterval <%= ['rsyslog']['action_queue_checkpoint_interval'] %>
-$ActionQueueSyncQueueFiles <%= ['rsyslog']['action_queue_sync_queue_files'] ? 'on' : 'off' %>
+$ActionQueueCheckpointInterval <%= node['rsyslog']['action_queue_checkpoint_interval'] %>
+$ActionQueueSyncQueueFiles <%= node['rsyslog']['action_queue_sync_queue_files'] ? 'on' : 'off' %>
 <% else -%>
-$ActionQueueType LinkedList # use  asynchronous processing
+$ActionQueueType LinkedList # use asynchronous processing
 <% end -%>
 
 $ActionQueueFileName srvrfwd<%= index %> # set file name, also enables disk mode

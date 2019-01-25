@@ -38,6 +38,17 @@ directory node['rsyslog']['working_dir'] do
   recursive true
 end
 
+if node['rsyslog']['delete_listen_conf']
+  # if this is set, then we've set
+  # imuxsock/SysSock.Name 
+  # in module load, which is being set by the legacy
+  # configuration option '$SystemLogSocketName' in this file
+  # breaking validate_config
+  file '/etc/rsyslog.d/listen.conf' do
+    action :delete
+  end
+end
+
 execute 'validate_config' do
   command "rsyslogd -N 1 -f #{node['rsyslog']['config_prefix']}/rsyslog.conf"
   action  :nothing

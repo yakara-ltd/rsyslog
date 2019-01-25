@@ -131,7 +131,18 @@ when 'rhel', 'fedora'
   # RHEL >= 7 and Fedora use journald in systemd. Amazon Linux doesn't.
   if node['platform'] != 'amazon' && node['platform_version'].to_i >= 7
     default['rsyslog']['modules'] = %w(imuxsock imjournal)
-    default['rsyslog']['additional_directives'] = { 'OmitLocalLogging' => 'on', 'IMJournalStateFile' => 'imjournal.state' }
+
+    default['rsyslog']['module_options']['imjournal'] = {
+      'StateFile' => 'imjournal.state',
+      'WorkAroundJournalBug' => 'on'
+    }
+
+    default['rsyslog']['module_options']['imuxsock'] = {
+      'SysSock.Use' => 'on',
+      'SysSock.Name' => '/run/systemd/journal/syslog'
+    }
+
+    default['rsyslog']['delete_listen_conf'] = true
   end
 else
   # format { facility => destination }

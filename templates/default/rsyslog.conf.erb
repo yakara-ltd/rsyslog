@@ -28,7 +28,8 @@ $PreserveFQDN <%= node['rsyslog']['preserve_fqdn'] %>
 
 <% if node['rsyslog']['modules'] && !node['rsyslog']['modules'].empty? %>
   <% [*node['rsyslog']['modules']].each do |mod| %>
-$ModLoad <%= mod %>
+    <% opts = [*node['rsyslog']['module_options'][mod]].map { |x,y| %Q{#{x}="#{y}"} }.join(' ') %>
+module(load="<%= mod %>" <%= opts %>)
   <% end %>
 <% end %>
 

@@ -40,7 +40,7 @@ end
 
 if node['rsyslog']['delete_listen_conf']
   # if this is set, then we've set
-  # imuxsock/SysSock.Name 
+  # imuxsock/SysSock.Name
   # in module load, which is being set by the legacy
   # configuration option '$SystemLogSocketName' in this file
   # breaking validate_config

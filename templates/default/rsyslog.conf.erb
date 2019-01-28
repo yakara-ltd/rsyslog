@@ -26,12 +26,16 @@ $PreserveFQDN <%= node['rsyslog']['preserve_fqdn'] %>
 #### MODULES ####
 #################
 
-<% if node['rsyslog']['modules'] && !node['rsyslog']['modules'].empty? %>
-  <% [*node['rsyslog']['modules']].each do |mod| %>
-    <% opts = [*node['rsyslog']['module_options'][mod]].map { |x,y| %Q{#{x}="#{y}"} }.join(' ') %>
+<% if node['rsyslog']['modules'] && !node['rsyslog']['modules'].empty? -%>
+  <% [*node['rsyslog']['modules']].each do |mod| -%>
+    <% if node['rsyslog']['module_options'] and node['rsyslog']['module_options'][mod] -%>
+    <% opts = [*node['rsyslog']['module_options'][mod]].map { |x,y| %Q{#{x}="#{y}"} }.join(' ') -%>
+    <% else -%>
+      <% opts = "" -%>
+    <% end -%>
 module(load="<%= mod %>" <%= opts %>)
-  <% end %>
-<% end %>
+  <% end -%>
+<% end -%>
 
 <% if node['rsyslog']['server'] -%>
   <% if node['rsyslog']['enable_tls'] && node['rsyslog']['tls_ca_file'] &&
